@@ -48,6 +48,7 @@ var query = function(sql, params, callback){
     });
 };
 
+//Starting the server
 var server = http
     .createServer(app)
     .listen(app.get('port'), function(){
