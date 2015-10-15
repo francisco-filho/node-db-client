@@ -4,6 +4,7 @@ var http = require('http'),
     pg = require('pg'),
     bodyParser = require('body-parser'),
     logger = require('morgan');
+var Connection = require('./lib/connection');
 
 app.set('port', 3030);
 
@@ -15,38 +16,25 @@ app.use(express.static(__dirname + '/public/'));
 app.post('/api/query', function(req, res, next){
     var queryStartTime = Date.now();
 
-    query(req.body.sql, {}, function(result){
-        
-        var data = {
+    if (!req.body.sql){
+        return next();
+    }
+
+    postgres.query(req.body.sql, {}, function(err, result){
+        res.json({
             fields: result.fields,
             rows: result.rows,
             rowCount: result.rowCount,
             time: Date.now() - queryStartTime
-        };
-
-        res.send(data);
+        });
     });
+
 });
 
 /** Database connection **/
 var conString = 'postgres://postgres:12345678@localhost/portal';
-var client, queryDone;
-pg.connect(conString, function(err, cli, done){
-    if (err) console.error(err);
-    client = cli;
-    queryDone = done;
-});
 
-var query = function(sql, params, callback){
-    params.rowMode = 'array';
-    params.text = sql;
-    client.query(params, function(err, result){
-        queryDone();
-
-        if (err) console.error(err); 
-        callback(result);
-    });
-};
+var postgres = new Connection(conString);
 
 //Starting the server
 var server = http
