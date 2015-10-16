@@ -4,14 +4,12 @@ var Connection = require('../lib/connection.js'),
     postgres = new Connection(conString),
     router = require('express').Router();
 
-
 router.post('/query', function(req, res, next){
     var queryStartTime = Date.now();
 
     if (!req.body.sql){
         return next();
     }
-
     postgres.query(req.body.sql, req.body.params || {}, function(err, result){
         res.json({
             fields: result.fields,
