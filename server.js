@@ -1,7 +1,6 @@
 var http = require('http'),
     express = require('express'),
     app = require('express')(),
-    pg = require('pg'),
     bodyParser = require('body-parser'),
     logger = require('morgan');
 var Connection = require('./lib/connection');
@@ -20,7 +19,7 @@ app.post('/api/query', function(req, res, next){
         return next();
     }
 
-    postgres.query(req.body.sql, {}, function(err, result){
+    postgres.query(req.body.sql, req.body.params || {}, function(err, result){
         res.json({
             fields: result.fields,
             rows: result.rows,
