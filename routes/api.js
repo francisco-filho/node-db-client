@@ -11,6 +11,7 @@ router.post('/query', function(req, res, next){
         return next();
     }
     postgres.query(req.body.sql, req.body.params || {}, function(err, result){
+        if (err) return next(err);
         res.json({
             fields: result.fields,
             rows: result.rows,
