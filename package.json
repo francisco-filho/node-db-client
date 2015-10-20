@@ -22,10 +22,11 @@
     "url": "https://github.com/francisco-filho/node-db-client/issues"
   },
   "dependencies": {
-    "morgan": "~1.6.1",
     "body-parser": "~1.14.1",
     "express": "~4.13.3",
-    "pg": "~4.4.2"
+    "morgan": "~1.6.1",
+    "pg": "~4.4.2",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "gulp": "^3.9.0"
