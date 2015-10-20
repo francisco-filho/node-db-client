@@ -12,7 +12,13 @@ app.set('port', 3030);
 app.use(logger('combined'));
 app.use(bodyParser.json({extended: false}));
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(express.static(__dirname + '/public/'));
+app.use(express.static(__dirname + '/src/'));
+
+
+app.all('/', function(req, res){
+    res.sendFile(__dirname + '/src/index.html');
+});
+
 
 /** Routes **/
 app.use('/api', api);

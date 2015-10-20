@@ -22,4 +22,19 @@ router.post('/query', function(req, res, next){
     
 });
 
+router.get('/schema', function(req, res, next){
+    
+    var queryStartTime = Date.now();
+
+    postgres.getSchema( req.body.params || {}, function(err, result){
+        if (err) return next(err);
+        res.json({
+            fields: result.fields,
+            rows: result.rows,
+            rowCount: result.rowCount,
+            time: Date.now() - queryStartTime
+        });
+    });
+});
+
 module.exports = router;
