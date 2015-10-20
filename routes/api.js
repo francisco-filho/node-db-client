@@ -19,6 +19,7 @@ router.post('/query', function(req, res, next){
             time: Date.now() - queryStartTime
         });
     });
+    
 });
 
 module.exports = router;
